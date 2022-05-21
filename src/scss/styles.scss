@@ -1,0 +1,749 @@
+@use './base/reset' as *;
+@use './base/variables' as *;
+
+body {
+  font-family: var(--primaryFont);
+  background-color: var(--primaryBlack);
+  color: var(--white);
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+@keyframes shimmer {
+  100% {
+    fill: #333;
+  }
+}
+
+.filter--active {
+  & *:not(.filter-section, .filter-section *) {
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  .filter-section {
+    transform: translateX(0%);
+    &::before {
+      transform: translateX(0%);
+    }
+  }
+}
+
+%box-shadow {
+  box-shadow: 2px 2px 10px 0px #262d3f;
+}
+
+html .hide {
+  display: none;
+}
+
+.menu-section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 10px;
+  width: calc(100% - 30px);
+  padding: 10px;
+  margin-inline: auto;
+  background-color: var(--secondaryBlack);
+  border-radius: 15px;
+  margin-top: 20px;
+  @media screen and (min-width: 1024px) {
+    gap: 20px;
+  }
+
+  &__btn {
+    padding: 10px;
+    background-color: transparent;
+    & svg {
+      width: 25px;
+      height: 25px;
+      stroke-width: 1.3px;
+      stroke: var(--orange);
+      fill: transparent;
+      @media screen and (min-width: 1024px) {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &--active {
+      & path {
+        stroke-dasharray: 90;
+        stroke-dashoffset: 90;
+        animation: linear forwards 0.7s svgAnimation;
+      }
+      @keyframes svgAnimation {
+        0% {
+          stroke-dashoffset: 90;
+        }
+        99% {
+          fill: transparent;
+        }
+        100% {
+          fill: var(--orange);
+          stroke-dashoffset: 0;
+          stroke-dasharray: 100;
+        }
+      }
+    }
+  }
+}
+
+.search-section {
+  padding: 10px 20px;
+  &__container-input {
+    display: flex;
+    flex-flow: row;
+  }
+
+  &__label svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--white);
+  }
+
+  &__input {
+    width: min(100%, 350px);
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    &::placeholder {
+      font-size: 15px;
+      color: var(--white);
+    }
+  }
+}
+
+.movie-section {
+  display: flex;
+  flex-flow: column;
+  gap: 25px;
+  padding-inline: 20px;
+  padding-bottom: 100px;
+  &__container-top {
+    display: flex;
+    flex-flow: column;
+    @media screen and (min-width: 1024px) {
+      flex-flow: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__no-movies-found {
+    text-align: center;
+    font-size: 30px;
+    font-size: clamp(30px, 4vw, 40px);
+  }
+
+  &__container-skeletons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+  }
+
+  &__card-skeleton {
+    height: 400px;
+    max-width: 400px;
+    margin-inline: auto;
+    width: 100%;
+
+    & path {
+      position: relative;
+      fill: #999;
+      animation: shimmer 1s linear infinite alternate-reverse;
+    }
+  }
+
+  &__movie {
+    cursor: pointer;
+    max-width: 350px;
+    margin-inline: auto;
+    
+
+    @media screen and (hover: hover) {
+      &:hover {
+        & img {
+          transform: scale(1.02);
+        }
+      }
+    }
+
+
+  }
+
+  &__container-search-info {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 15px;
+    @media screen and (min-width: 1024px) {
+      flex-flow: row;
+    }
+  }
+
+  &__movies-number {
+    color: var(--orange);
+    font-size: 15px;
+    font-weight: 500;
+    min-width: 100px;
+    height: max-content;
+    @media screen and (min-width: 1024px) {
+      min-width: 200px;
+      justify-self: center;
+      align-self: center;
+    }
+  }
+
+  &__active-genres {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 15px;
+    width: 100%;
+    height: max-content;
+    border-radius: 40px;
+    margin-top: 5px;
+    margin-bottom: 13px;
+  }
+
+  &__active-genre {
+    background-color: var(--secondaryBlack);
+    padding: 8px 20px;
+    border-radius: 30px;
+    transition: 0.1s linear color;
+    @extend %box-shadow;
+    @media screen and (hover: hover) {
+      &:hover {
+        & span {
+          color: var(--orange);
+        }
+        & svg {
+          fill: var(--orange);
+        }
+      }
+    }
+
+    & span {
+      font-size: 18px;
+      color: var(--white);
+      transition: 0.1s linear color;
+      padding-right: 7px;
+      pointer-events: none;
+    }
+
+    & svg {
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      fill: var(--white);
+      transition: 0.1s linear fill;
+    }
+  }
+
+  &__select-part {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 20px;
+    border-radius: 10px;
+
+    & span {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--white);
+      height: max-content;
+      align-self: center;
+      @media screen and (min-width: 1024px) {
+        padding-top: 8px;
+      }
+    }
+  }
+
+  &__container-select {
+    padding: 10px 10px;
+    border-radius: 40px;
+    background-color: var(--secondaryBlack);
+    max-height: 42px;
+    justify-self: center;
+    background-color: var(--secondaryBlack);
+    @extend %box-shadow;
+    @media screen and (min-width: 1024px) {
+      align-self: center;
+    }
+  }
+
+  &__select {
+    background-color: var(--secondaryBlack);
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: var(--white);
+  }
+
+  &__container-movies {
+    display: flex;
+    flex-flow: column;
+    gap: 80px;
+    @media screen and (min-width: 548px) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+
+  &__movie-img {
+    border-radius: 10px;
+    overflow: hidden;
+    & img {
+      transition: 0.2s linear transform;
+    }
+  }
+
+  &__movie-info {
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: space-between;
+    padding-inline: 20px;
+  }
+
+  &__movie-title {
+    height: max-content;
+    align-self: center;
+  }
+
+  &__container-actions {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 20px;
+    border: none;
+    outline: none;
+  }
+
+  &__action {
+    cursor: pointer;
+    padding: 0px;
+    background-color: transparent;
+    padding-inline: 10px;
+
+    &--active {
+      & path {
+        stroke-dasharray: 80;
+        stroke-dashoffset: 80;
+        animation: linear forwards 0.7s svgAnimation;
+      }
+      @keyframes svgAnimation {
+        0% {
+          stroke-dashoffset: 80;
+        }
+
+        80% {
+          fill: transparent;
+        }
+        100% {
+          fill: var(--orange);
+          stroke-dashoffset: 0;
+        }
+      }
+    }
+    & svg {
+      width: 30px;
+      height: 30px;
+      stroke: 1px;
+      stroke: var(--orange);
+      fill: transparent;
+    }
+  }
+}
+
+/*************** filter section  ********************/
+
+.filter-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: max-content;
+  padding: 0px 30px 50px;
+  transform: translateX(-100%);
+  background-color: var(--primaryBlack);
+  transition: 0.3s linear transform;
+
+  &::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 97vw;
+    height: 100%;
+    background-color: #161d2f66;
+    transform: translateX(-100%);
+    transition: 0.15s linear transform;
+  }
+
+  @media screen and (min-width: 748px) {
+    max-width: 400px;
+  }
+
+  &__h3 {
+    letter-spacing: 1px;
+  }
+
+  &__container-top {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+  }
+
+  &__cross-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 8px;
+    height: max-content;
+    align-self: center;
+    & svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--white);
+    }
+  }
+
+  &__span {
+    display: block;
+    padding-block: 7px;
+    width: 100%;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 0.1px solid var(--white);
+  }
+
+  &__container-genres {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    padding-top: 20px;
+  }
+
+  &__genre {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 5px;
+    transition: 0.1s linear background-color;
+    letter-spacing: 0.5px;
+    @media screen and (hover: hover) {
+      &:hover {
+        background-color: var(--orange);
+      }
+    }
+
+    & * {
+      pointer-events: none;
+    }
+
+    & span {
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      height: max-content;
+      align-self: center;
+    }
+
+    & svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--white);
+      fill: var(--white);
+      opacity: 0;
+    }
+
+    &--active {
+      background-color: var(--orange);
+      & svg {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__container-year-input {
+    padding-top: 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+  }
+
+  &__container-year-input-info {
+    padding-bottom: 7px;
+    border-bottom: 0.1px solid var(--white);
+    & span {
+      width: max-content;
+      border-bottom: none;
+    }
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+  }
+
+  &__input {
+    border: none;
+    outline: none;
+    width: 100%;
+    border-radius: 10px;
+    appearance: none;
+    -webkit-appearance: none;
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      border: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      margin-top: -3.5px;
+      background-color: var(--orange);
+    }
+    &::-webkit-slider-runnable-track {
+      height: 10px;
+      background-color: var(--white);
+      border-radius: 10px;
+    }
+
+    &::-moz-range-thumb {
+      background-color: var(--orange);
+      outline: none;
+      border: none;
+    }
+  }
+}
+
+/********** movie modal ************/
+
+.modal-section {
+  clip-path: circle(150% at 100% 100%);
+  transition: 0.3s linear clip-path;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  min-height: 100%;
+  background-color: var(--primaryFont);
+  background-image: linear-gradient(#0007, #0007), url('/assets/default-img.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  @media screen and (min-width: 1024px) {
+    clip-path: circle(150% at 100% 100%);
+    transition: 0.3s linear clip-path;
+    position: absolute;
+    padding-top: 50px;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100vh;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &--hide {
+    clip-path: circle(0% at 100% 100%);
+  }
+
+  &--seen [data-property='seen'] svg {
+    fill: var(--orange);
+  }
+  &--seeLater [data-property='seeLater'] svg {
+    fill: var(--orange);
+  }
+  &--favourite [data-property='favourite'] svg {
+    fill: var(--orange);
+  }
+
+  &__back-btn {
+    position: absolute;
+    top: 20px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    & svg {
+      stroke-width: 2px;
+      stroke: var(--orange);
+      height: 25px;
+      width: 25px;
+    }
+    @media screen and (min-width: 1024px) {
+      top: 40px;
+      left: 40px;
+    }
+  }
+
+  &__container-movie {
+    height: 100%;
+    width: 100%;
+    margin-top: 100px;
+    background-image: linear-gradient(transparent, #0004, var(--primaryBlack) 40%);
+    display: flex;
+    flex-flow: column;
+    gap: 40px;
+    padding: 20px;
+
+    @media screen and (min-width: 1024px) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      background-image: linear-gradient(transparent, #0004, var(--primaryBlack) 60%);
+    }
+  }
+
+  &__movie-basic-info {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 20px;
+    @media screen and (min-width: 1024px) {
+      height: max-content;
+      width: 600px;
+      margin-top: 180px;
+      margin-left: auto;
+    }
+  }
+
+  &__movie-title {
+    padding: 0;
+    margin: 0;
+    font-size: 27px;
+    @media screen and (min-width: 1024px) {
+      font-size: 60px;
+    }
+  }
+
+  &__container-actions {
+    display: flex;
+    flex-flow: row;
+    gap: 23px;
+  }
+
+  &__movie-action {
+    background-color: transparent;
+    padding: 0;
+    & svg {
+      width: 30px;
+      height: 30px;
+      stroke-width: 1px;
+      stroke: var(--orange);
+      fill: transparent;
+    }
+  }
+
+  &__trailer-btn {
+    background-color: transparent;
+    padding: 0;
+    & svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--orange);
+    }
+  }
+
+  &__movie-overview {
+    letter-spacing: 0.4px;
+    line-height: 150%;
+    max-width: 620px;
+    font-size: 18px;
+    @media screen and (min-width: 1024px) {
+      max-width: 600px;
+    }
+  }
+
+  &__movie-facts {
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    @media screen and (min-width: 1024px) {
+      height: max-content;
+      width: max-content;
+      margin-right: auto;
+      align-self: center;
+      background-color: transparent;
+    }
+  }
+
+  &__container-uls {
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    @media screen and (min-width: 1200px) {
+      flex-flow: row wrap;
+      gap: 50px;
+    }
+  }
+
+  &__ul {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+  }
+
+  &__span {
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    font-size: 16px;
+  }
+
+  &__container-genres{
+    width: 100%;
+    max-width: 300px;
+    @media screen and (min-width: 1200px) {
+      max-width: none;
+    }
+  }
+
+  &__ul-movie-genres {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    padding-bottom: 80px;
+    background-color: var(--primaryBlack);
+    @media screen and (min-width: 1024px) {
+      background-color: transparent;
+      width: 100%;
+      flex-flow: row wrap;
+    }
+  }
+
+  &__li-content{
+    font-weight: 200;
+    padding-left: 2px;
+  }
+
+  &__li-genre {
+    padding: 10px 20px;
+    border-radius: 10px;
+    height: 40px;
+    background-color: var(--secondaryBlack);
+    @extend %box-shadow;
+  }
+
+  &__vote-average-span {
+    height: max-content;
+    align-self: center;
+    & + svg {
+      width: 15px;
+      height: 15px;
+      fill: var(--orange);
+    }
+  }
+}
