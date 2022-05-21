@@ -8,7 +8,7 @@ This movie web app was a good project to put into practice my vanilla javascript
 ## Links
 - My Linkedin [Linkedin](https://www.linkedin.com/in/mouhametndiaye/)
 - My email ahmetndiaye404@gmail.com
-- Live Project [Movies Web App](https://mouhametnd-movie-app.netlify.app)
+- Live Project [Movies Web App](https://mouhametnd-movies-app.netlify.app)
 
 ## Challenge  
 Users should be able to:
