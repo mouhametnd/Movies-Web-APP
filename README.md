@@ -8,8 +8,7 @@ This movie web app was a good project to put into practice my vanilla javascript
 ## Links
 - My Linkedin [Linkedin](https://www.linkedin.com/in/mouhametndiaye/)
 - My email ahmetndiaye404@gmail.com
-- Live Project [REST Countries API](https://mouhametnd-movie-app.netlify.app)
-- Challenged by [Frontend Mentor](https://www.frontendmentor.io/home)
+- Live Project [Movies Web App](https://mouhametnd-movie-app.netlify.app)
 
 ## Challenge  
 Users should be able to:
