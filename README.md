@@ -1,4 +1,4 @@
-# Frontend Mentor - Movies Web APP
+# Frontend Mentor - Movies Web App
  
 ## Welcome 🍃
 
